@@ -1,7 +1,7 @@
 # Machine Learning - 2nd Assignment
 ## Task 3: Model Comparison (Logistic Regression, SVM, Random Forest)
 
-**Name:** [Your Name]
+**Name:** Aishwarya
 **Sub Code:** BCS602
 **Year:** 2024-2025
 **Semester:** VI
