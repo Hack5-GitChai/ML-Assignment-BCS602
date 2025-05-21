@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Task1_Report</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<h1 id="machine-learning---2nd-assignment">Machine Learning - 2nd Assignment</h1>
+<h2 id="task-1-customer-segmentation-using-k-means">Task 1: Customer Segmentation using K-Means</h2>
+<p><strong>Name:</strong> [Your Name] <strong>Sub Code:</strong> BCS602 <strong>Year:</strong> 2024-2025 <strong>Semester:</strong> VI</p>
+<hr />
+<h2 id="detailed-explanation-of-dataset-used">1. Detailed Explanation of Dataset Used</h2>
+<h3 id="a.-dataset-name-and-source">a. Dataset Name and Source</h3>
+<p>The dataset used for this task is the <strong>Mall Customer Segmentation Data</strong>. * <strong>Source:</strong> This dataset is a common benchmark dataset, often found on platforms like Kaggle. For this assignment, the <code>Mall_Customers.csv</code> file was used. * <em>(Optional: If you want to cite the specific Kaggle link you might have looked at: e.g., “Originally sourced from Kaggle: <a href="https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python">https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python</a>”)</em></p>
+<h3 id="b.-size-and-structure">b. Size and Structure</h3>
+<ul>
+<li><strong>Size:</strong> The dataset contains <strong>200 records (customers)</strong> and <strong>5 attributes</strong>.</li>
+<li><strong>Attributes:</strong>
+<ul>
+<li><strong>CustomerID:</strong> Unique identifier for each customer (Integer). <em>This column was not used for clustering.</em></li>
+<li><strong>Gender:</strong> Gender of the customer (Categorical: Male/Female). <em>This column was not directly used in the primary K-Means clustering for this iteration but could be used for further analysis.</em></li>
+<li><strong>Age:</strong> Age of the customer (Integer). <em>While not used in the primary clustering, it was observed in cluster characteristic analysis.</em></li>
+<li><strong>Annual Income (k$):</strong> Annual income of the customer in thousands of dollars (Integer). <strong>This was a key feature used for clustering.</strong></li>
+<li><strong>Spending Score (1-100):</strong> A score assigned by the mall based on customer behavior and spending nature (Integer, range 1-100). <strong>This was a key feature used for clustering.</strong></li>
+</ul></li>
+</ul>
+<h3 id="c.-preprocessing-of-dataset">c. Preprocessing of Dataset</h3>
+<p>The following preprocessing steps were performed: 1. <strong>Feature Selection:</strong> The ‘Annual Income (k<span class="math inline">)′<em>a</em><em>n</em><em>d</em>′<em>S</em><em>p</em><em>e</em><em>n</em><em>d</em><em>i</em><em>n</em><em>g</em><em>S</em><em>c</em><em>o</em><em>r</em><em>e</em>(1 − 100)′<em>c</em><em>o</em><em>l</em><em>u</em><em>m</em><em>n</em><em>s</em><em>w</em><em>e</em><em>r</em><em>e</em><em>s</em><em>e</em><em>l</em><em>e</em><em>c</em><em>t</em><em>e</em><em>d</em><em>a</em><em>s</em><em>t</em><em>h</em><em>e</em><em>p</em><em>r</em><em>i</em><em>m</em><em>a</em><em>r</em><em>y</em><em>f</em><em>e</em><em>a</em><em>t</em><em>u</em><em>r</em><em>e</em><em>s</em><em>f</em><em>o</em><em>r</em><em>K</em> − <em>M</em><em>e</em><em>a</em><em>n</em><em>s</em><em>c</em><em>l</em><em>u</em><em>s</em><em>t</em><em>e</em><em>r</em><em>i</em><em>n</em><em>g</em>.<em>T</em><em>h</em><em>e</em><em>s</em><em>e</em><em>f</em><em>e</em><em>a</em><em>t</em><em>u</em><em>r</em><em>e</em><em>s</em><em>a</em><em>r</em><em>e</em><em>q</em><em>u</em><em>a</em><em>n</em><em>t</em><em>i</em><em>t</em><em>a</em><em>t</em><em>i</em><em>v</em><em>e</em><em>a</em><em>n</em><em>d</em><em>d</em><em>i</em><em>r</em><em>e</em><em>c</em><em>t</em><em>l</em><em>y</em><em>r</em><em>e</em><em>l</em><em>e</em><em>v</em><em>a</em><em>n</em><em>t</em><em>t</em><em>o</em><em>c</em><em>u</em><em>s</em><em>t</em><em>o</em><em>m</em><em>e</em><em>r</em><em>s</em><em>e</em><em>g</em><em>m</em><em>e</em><em>n</em><em>t</em><em>a</em><em>t</em><em>i</em><em>o</em><em>n</em><em>b</em><em>a</em><em>s</em><em>e</em><em>d</em><em>o</em><em>n</em><em>p</em><em>u</em><em>r</em><em>c</em><em>h</em><em>a</em><em>s</em><em>i</em><em>n</em><em>g</em><em>p</em><em>o</em><em>w</em><em>e</em><em>r</em><em>a</em><em>n</em><em>d</em><em>h</em><em>a</em><em>b</em><em>i</em><em>t</em><em>s</em>.2. *  * <em>R</em><em>e</em><em>n</em><em>a</em><em>m</em><em>i</em><em>n</em><em>g</em><em>C</em><em>o</em><em>l</em><em>u</em><em>m</em><em>n</em><em>s</em> :  *  * <em>F</em><em>o</em><em>r</em><em>e</em><em>a</em><em>s</em><em>e</em><em>o</em><em>f</em><em>u</em><em>s</em><em>e</em><em>i</em><em>n</em><em>t</em><em>h</em><em>e</em><em>c</em><em>o</em><em>d</em><em>e</em>, ′<em>A</em><em>n</em><em>n</em><em>u</em><em>a</em><em>l</em><em>I</em><em>n</em><em>c</em><em>o</em><em>m</em><em>e</em>(<em>k</em></span>)’ was renamed to <code>Annual_Income</code> and ‘Spending Score (1-100)’ was renamed to <code>Spending_Score</code>. 3. <strong>Data Scaling:</strong> The selected features (<code>Annual_Income</code> and <code>Spending_Score</code>) were scaled using <code>StandardScaler</code> from <code>scikit-learn</code>. This standardizes features by removing the mean and scaling to unit variance. Scaling is crucial for K-Means as it is a distance-based algorithm and ensures that features with larger magnitudes do not dominate the clustering process.</p>
+<hr />
+<h2 id="explain-the-working-of-algorithm-on-selected-dataset-with-necessary-figures">2. Explain the Working of Algorithm on Selected Dataset with Necessary Figures</h2>
+<h3 id="a.-k-means-clustering-algorithm">a. K-Means Clustering Algorithm</h3>
+<p>K-Means is an unsupervised machine learning algorithm used for partitioning a dataset into ‘k’ distinct, non-overlapping clusters. The algorithm works iteratively: 1. <strong>Initialization:</strong> ‘k’ initial centroids are chosen (e.g., randomly or using ‘k-means++’). 2. <strong>Assignment Step:</strong> Each data point is assigned to the nearest centroid, forming ‘k’ clusters. 3. <strong>Update Step:</strong> The centroid of each cluster is recalculated as the mean of all data points assigned to that cluster. Steps 2 and 3 are repeated until the centroids no longer change significantly or a maximum number of iterations is reached. The objective is to minimize the Within-Cluster Sum of Squares (WCSS), also known as inertia.</p>
+<h3 id="b.-determining-the-optimal-number-of-clusters-k---elbow-method">b. Determining the Optimal Number of Clusters (k) - Elbow Method</h3>
+<p>To determine the optimal number of clusters (k) for the K-Means algorithm, the <strong>Elbow Method</strong> was employed. This involves running K-Means for a range of k values (e.g., 1 to 10) and calculating the WCSS (inertia) for each k. A plot of WCSS against k is then generated.</p>
+<p><strong>Figure 1: Elbow Method for Optimal k</strong> <em>(Here, you will need to insert the image of your Elbow Method plot from your notebook. You can take a screenshot of the plot from your .ipynb file, save it as an image (e.g., <code>elbow_plot.png</code>) in your <code>Task1_CustomerSegmentation/report/</code> folder, and then reference it in Markdown like this:)</em> <code>![Elbow Method Plot](./elbow_plot.png)</code></p>
+<p><strong>Observation:</strong> As seen in Figure 1, the WCSS decreases as k increases. The “elbow” point on the graph, where the rate of decrease sharply changes, indicates a good trade-off between minimizing WCSS and avoiding an excessive number of clusters. For this dataset, the elbow was observed at <strong>k=5</strong>. Therefore, 5 was chosen as the optimal number of clusters.</p>
+<h3 id="c.-application-of-k-means-and-pca-for-visualization">c. Application of K-Means and PCA for Visualization</h3>
+<p>Once the optimal k=5 was determined: 1. The K-Means algorithm was applied to the scaled ‘Annual_Income’ and ‘Spending_Score’ features with <code>n_clusters=5</code>. 2. Each customer was assigned to one of the 5 clusters. 3. <strong>Principal Component Analysis (PCA)</strong> was then used to visualize these clusters. Although the clustering was performed on 2 features, applying PCA (reducing 2 dimensions to 2 principal components) demonstrates the technique as required by the assignment. PCA helps in visualizing high-dimensional data by projecting it onto a lower-dimensional space while retaining the maximum possible variance.</p>
+<p><strong>Figure 2: Customer Segments using K-Means (k=5) - Original Features</strong> <em>(Screenshot of your first scatter plot - Annual Income vs Spending Score, colored by cluster. Save as <code>kmeans_original_features_plot.png</code> in the <code>report</code> folder.)</em> <code>![K-Means Original Features Plot](./kmeans_original_features_plot.png)</code></p>
+<p><strong>Figure 3: Customer Segments (PCA-reduced) using K-Means (k=5)</strong> <em>(Screenshot of your PCA scatter plot. Save as <code>kmeans_pca_plot.png</code> in the <code>report</code> folder.)</em> <code>![K-Means PCA Plot](./kmeans_pca_plot.png)</code></p>
+<p>The PCA plot (Figure 3) shows the clusters projected onto the first two principal components. The explained variance ratio by PC1 and PC2 was [Insert explained variance ratio from your notebook output, e.g., PC1: 0.55, PC2: 0.45, Total: 1.00, or whatever your notebook shows].</p>
+<hr />
+<h2 id="interpretation-of-tasks-and-results">3. Interpretation of Tasks and Results</h2>
+<p>The K-Means clustering algorithm successfully segmented the mall customers into 5 distinct groups based on their annual income and spending scores. The characteristics of these clusters, derived from analyzing their centroids and the distribution of customers (referencing Figure 2 primarily, and supported by PCA visualization in Figure 3), are as follows:</p>
+<p><em>(This is where you expand on the interpretation from your notebook. Be descriptive. Use the cluster numbers as they appear in your plots (e.g., Cluster 0, Cluster 1, …). You can also refer to the <code>df.groupby('Cluster').mean()</code> output from your notebook.)</em></p>
+<ul>
+<li><strong>Cluster [Number, e.g., 0] - Label: (e.g., “Standard Customers” or “Careful Spenders”)</strong>
+<ul>
+<li><strong>Characteristics:</strong> These customers generally have [low/moderate/high] annual income and [low/moderate/high] spending scores. (Be specific, e.g., “average annual income around $XXk and spending score around YY”).</li>
+<li><strong>Potential Business Implication:</strong> [e.g., General marketing, loyalty programs to encourage more spending.]</li>
+</ul></li>
+<li><strong>Cluster [Number, e.g., 1] - Label: (e.g., “Target Customers” or “High Value”)</strong>
+<ul>
+<li><strong>Characteristics:</strong> These customers exhibit [low/moderate/high] annual income and [low/moderate/high] spending scores. (e.g., “high annual income (average $XXk) and high spending scores (average YY)”).</li>
+<li><strong>Potential Business Implication:</strong> [e.g., Prime targets for premium products, exclusive offers, and personalized marketing.]</li>
+</ul></li>
+<li><strong>Cluster [Number, e.g., 2] - Label: (e.g., “Careful Rich” or “High Income, Low Spenders”)</strong>
+<ul>
+<li><strong>Characteristics:</strong> …</li>
+<li><strong>Potential Business Implication:</strong> …</li>
+</ul></li>
+<li><strong>Cluster [Number, e.g., 3] - Label: (e.g., “Savers” or “Low Income, Low Spenders”)</strong>
+<ul>
+<li><strong>Characteristics:</strong> …</li>
+<li><strong>Potential Business Implication:</strong> …</li>
+</ul></li>
+<li><strong>Cluster [Number, e.g., 4] - Label: (e.g., “Risk Takers” or “Low Income, High Spenders”)</strong>
+<ul>
+<li><strong>Characteristics:</strong> …</li>
+<li><strong>Potential Business Implication:</strong> …</li>
+</ul></li>
+</ul>
+<p><em>(Make sure the labels and descriptions match YOUR cluster outputs. The order of clusters might be different each time K-Means runs if <code>random_state</code> isn’t fixed, or if the K-Means++ initialization leads to a different starting point, though <code>random_state=42</code> should make it consistent.)</em></p>
+<p><strong>Conclusion for Task 1:</strong> Customer segmentation using K-Means has provided valuable insights into different customer groups. These segments can help the mall management in devising targeted marketing strategies, optimizing store layouts, and improving overall customer experience, ultimately leading to increased sales and customer satisfaction. The use of the Elbow Method helped in scientifically determining the optimal number of segments, and PCA facilitated their visualization.</p>
+<hr />
+</body>
+</html>
